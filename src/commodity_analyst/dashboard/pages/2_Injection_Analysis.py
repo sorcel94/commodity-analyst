@@ -95,7 +95,7 @@ fig1.update_layout(
     height=450,
     legend={"orientation": "h", "y": -0.15},
 )
-st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, width="stretch")
 
 st.caption("Above zero = net injection (storage filling). Below zero = net withdrawal (storage draining). The red dotted line shows the daily injection rate needed to reach 90% by November 1. The blue line should stay above it.")
 
@@ -127,7 +127,7 @@ if not current.empty and len(current) >= 14:
         height=400,
         legend={"orientation": "h", "y": -0.15},
     )
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width="stretch")
 
     st.caption("Taller blue bars than gray = injection is accelerating week-over-week. Shrinking bars = injection pace is slowing.")
 else:
@@ -160,7 +160,7 @@ if country_data:
         yaxis_title="Avg Injection (GWh/d, 7d)",
         height=400,
     )
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig3, width="stretch")
 
     st.caption("Germany (DE) and Italy (IT) are the largest storage markets. If their injection slows, it's harder for the EU aggregate to keep pace.")
 else:

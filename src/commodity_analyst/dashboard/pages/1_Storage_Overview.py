@@ -126,7 +126,7 @@ fig1.update_layout(
     height=450,
     legend={"orientation": "h", "y": -0.15},
 )
-st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, width="stretch")
 
 st.caption("The solid blue line should stay above the red dotted EU target curve. Background bands: green (80%+) = comfortable, yellow (60-80%) = needs injection, red (<60%) = behind schedule. The vertical dashed line marks the November 1 deadline.")
 
@@ -191,6 +191,6 @@ fig2.update_layout(
     height=450,
     legend={"orientation": "h", "y": -0.15},
 )
-st.plotly_chart(fig2, use_container_width=True)
+st.plotly_chart(fig2, width="stretch")
 
 st.caption("The gray band shows the 'normal range' (5-year average +/- 1 standard deviation). If this year's blue line falls below the band, storage is unusually low for this time of year.")

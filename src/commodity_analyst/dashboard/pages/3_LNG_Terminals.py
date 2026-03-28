@@ -54,7 +54,7 @@ st.subheader("Terminal Rankings")
 if not listing.empty:
     st.dataframe(
         listing[["name", "country", "company_name", "type"]],
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -74,7 +74,7 @@ if not eu_lng.empty:
         yaxis_title="Send-Out (GWh/d)",
         height=400,
     )
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width="stretch")
 
     st.caption("Rising send-out = more LNG being regasified into the EU pipeline grid, easing supply pressure. Falling send-out = less LNG flowing in, which tightens the market.")
 
@@ -119,7 +119,7 @@ if not listing.empty:
                     height=450,
                     legend={"orientation": "h", "y": -0.15},
                 )
-                st.plotly_chart(fig2, use_container_width=True)
+                st.plotly_chart(fig2, width="stretch")
 
                 st.caption("Inventory falling while send-out rises = the terminal is actively regasifying. Inventory building with low send-out = tank storage is filling but gas isn't flowing yet.")
             else:

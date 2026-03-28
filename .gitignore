@@ -228,7 +228,7 @@ atlassian-ide-plugin.xml
 # SonarLint plugin
 .idea/sonarlint/
 .idea/sonarlint.xml # see https://community.sonarsource.com/t/is-the-file-idea-idea-idea-sonarlint-xml-intended-to-be-under-source-control/121119
-
+.idea/
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
@@ -248,6 +248,9 @@ http-client.private.env.json
 
 # Github Copilot persisted session migrations, see: https://github.com/microsoft/copilot-intellij-feedback/issues/712#issuecomment-3322062215
 .idea/**/copilot.data.migration.*.xml
+# Streamlit secrets
+.streamlit/secrets.toml
+
 # Claude Code
 .claude/
 CLAUDE.md

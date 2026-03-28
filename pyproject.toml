@@ -16,8 +16,6 @@ dependencies = [
     "yfinance",
     "fredapi",
     "python-dotenv",
-    "basedpyright>=1.38.4",
-    "ruff>=0.15.8",
 ]
 
 
@@ -44,4 +42,5 @@ testpaths = ["tests"]
 [dependency-groups]
 dev = [
     "basedpyright>=1.38.4",
+    "ruff>=0.15.8",
 ]

@@ -95,7 +95,7 @@ fig1.update_layout(
     height=500,
     legend={"orientation": "h", "y": -0.15},
 )
-st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, width="stretch")
 
 st.caption("TTF and JKM are both in EUR/MWh (left axis) so their spread is directly visible. Henry Hub (right axis) stays in USD/MMBtu. JKM is monthly FRED data with a 1-2 month publication lag.")
 
@@ -161,7 +161,7 @@ if storage is not None and not storage.empty and not ttf.empty:
             yaxis_title="TTF (EUR/MWh)",
             height=450,
         )
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width="stretch")
 
         if corr < -0.5:
             st.caption(f"Correlation: **{corr:.2f}** (strong negative) - as storage falls, prices rise. This is the typical pattern: low fill = higher scarcity premium.")

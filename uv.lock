@@ -256,13 +256,11 @@ name = "commodity-analyst"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "basedpyright" },
     { name = "fredapi" },
     { name = "httpx" },
     { name = "pandas" },
     { name = "plotly" },
     { name = "python-dotenv" },
-    { name = "ruff" },
     { name = "streamlit" },
     { name = "yfinance" },
 ]
@@ -270,23 +268,25 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "basedpyright" },
+    { name = "ruff" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "basedpyright", specifier = ">=1.38.4" },
     { name = "fredapi" },
     { name = "httpx" },
     { name = "pandas" },
     { name = "plotly" },
     { name = "python-dotenv" },
-    { name = "ruff", specifier = ">=0.15.8" },
     { name = "streamlit" },
     { name = "yfinance" },
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "basedpyright", specifier = ">=1.38.4" }]
+dev = [
+    { name = "basedpyright", specifier = ">=1.38.4" },
+    { name = "ruff", specifier = ">=0.15.8" },
+]
 
 [[package]]
 name = "curl-cffi"
