@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import datetime
 
 import plotly.graph_objects as go
@@ -40,7 +38,9 @@ if not eu_lng.empty:
     c3.metric("Terminal Utilization", f"{utilization:.1f}%")
 
     if utilization > 85:
-        st.error(f"Terminal utilization is **{utilization:.0f}%**  - near capacity. Limited room to accept additional LNG cargoes. Supports higher prices.")
+        st.error(
+            f"Terminal utilization is **{utilization:.0f}%**  - near capacity. Limited room to accept additional LNG cargoes. Supports higher prices."
+        )
     elif utilization > 70:
         st.warning(f"Terminal utilization is **{utilization:.0f}%**  - getting busy. Some buffer remains but not much headroom for surge imports.")
     else:
@@ -63,20 +63,24 @@ st.subheader("EU LNG Send-Out Trend")
 
 if not eu_lng.empty:
     fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(
-        x=eu_lng.index,
-        y=eu_lng["send_out"],
-        mode="lines+markers",
-        name="EU Send-Out",
-        line={"color": "#1f77b4"},
-    ))
+    fig1.add_trace(
+        go.Scatter(
+            x=eu_lng.index,
+            y=eu_lng["send_out"],
+            mode="lines+markers",
+            name="EU Send-Out",
+            line={"color": "#1f77b4"},
+        )
+    )
     fig1.update_layout(
         yaxis_title="Send-Out (GWh/d)",
         height=400,
     )
     st.plotly_chart(fig1, width="stretch")
 
-    st.caption("Rising send-out = more LNG being regasified into the EU pipeline grid, easing supply pressure. Falling send-out = less LNG flowing in, which tightens the market.")
+    st.caption(
+        "Rising send-out = more LNG being regasified into the EU pipeline grid, easing supply pressure. Falling send-out = less LNG flowing in, which tightens the market."
+    )
 
 # --- Terminal drill-down ---
 st.subheader("Terminal Drill-Down")
@@ -99,20 +103,24 @@ if not listing.empty:
 
             if not terminal_df.empty:
                 fig2 = go.Figure()
-                fig2.add_trace(go.Scatter(
-                    x=terminal_df.index,
-                    y=terminal_df["lng_inventory"],
-                    mode="lines",
-                    name="LNG Inventory (GWh)",
-                    yaxis="y",
-                ))
-                fig2.add_trace(go.Scatter(
-                    x=terminal_df.index,
-                    y=terminal_df["send_out"],
-                    mode="lines",
-                    name="Send-Out (GWh/d)",
-                    yaxis="y2",
-                ))
+                fig2.add_trace(
+                    go.Scatter(
+                        x=terminal_df.index,
+                        y=terminal_df["lng_inventory"],
+                        mode="lines",
+                        name="LNG Inventory (GWh)",
+                        yaxis="y",
+                    )
+                )
+                fig2.add_trace(
+                    go.Scatter(
+                        x=terminal_df.index,
+                        y=terminal_df["send_out"],
+                        mode="lines",
+                        name="Send-Out (GWh/d)",
+                        yaxis="y2",
+                    )
+                )
                 fig2.update_layout(
                     yaxis={"title": "LNG Inventory (GWh)"},
                     yaxis2={"title": "Send-Out (GWh/d)", "overlaying": "y", "side": "right"},
@@ -121,7 +129,9 @@ if not listing.empty:
                 )
                 st.plotly_chart(fig2, width="stretch")
 
-                st.caption("Inventory falling while send-out rises = the terminal is actively regasifying. Inventory building with low send-out = tank storage is filling but gas isn't flowing yet.")
+                st.caption(
+                    "Inventory falling while send-out rises = the terminal is actively regasifying. Inventory building with low send-out = tank storage is filling but gas isn't flowing yet."
+                )
             else:
                 st.warning("No data available for this terminal in the selected period.")
         except Exception as e:

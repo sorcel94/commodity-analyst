@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import datetime
 
 import streamlit as st
@@ -91,16 +89,20 @@ red_count = sum(1 for s in signals.values() if s["status"] == "red")
 yellow_count = sum(1 for s in signals.values() if s["status"] == "yellow")
 green_count = sum(1 for s in signals.values() if s["status"] == "green")
 
-summary_text = (
-    f"**{red_count} red**, **{yellow_count} yellow**, **{green_count} green** out of {len(signals)} signals."
-)
+summary_text = f"**{red_count} red**, **{yellow_count} yellow**, **{green_count} green** out of {len(signals)} signals."
 
 if red_count >= 3:
-    st.error(f"Strong bullish signal. {summary_text} Multiple indicators point to supply stress heading into winter. The thesis that EU gas prices will rise is well-supported.")
+    st.error(
+        f"Strong bullish signal. {summary_text} Multiple indicators point to supply stress heading into winter. The thesis that EU gas prices will rise is well-supported."
+    )
 elif red_count + yellow_count >= 3:
-    st.warning(f"Moderate bullish signal. {summary_text} Several indicators are flashing caution. The thesis has partial support but isn't overwhelming.")
+    st.warning(
+        f"Moderate bullish signal. {summary_text} Several indicators are flashing caution. The thesis has partial support but isn't overwhelming."
+    )
 elif green_count >= 4:
-    st.success(f"Bullish thesis weakened. {summary_text} Most indicators suggest supply is comfortable. The case for rising winter prices is currently weak.")
+    st.success(
+        f"Bullish thesis weakened. {summary_text} Most indicators suggest supply is comfortable. The case for rising winter prices is currently weak."
+    )
 else:
     st.info(f"Mixed picture. {summary_text} No dominant direction  - keep monitoring as the injection season progresses.")
 
@@ -110,18 +112,18 @@ st.subheader("Signal Detail")
 st.markdown(f"""
 Key factors driving the outlook:
 
-- **Storage Z-score** at **{signals['z_score']['value']}**: fill levels are
-  {'well below' if signals['z_score']['value'] < -1.5 else 'slightly below' if signals['z_score']['value'] < -0.5 else 'at or above'}
+- **Storage Z-score** at **{signals["z_score"]["value"]}**: fill levels are
+  {"well below" if signals["z_score"]["value"] < -1.5 else "slightly below" if signals["z_score"]["value"] < -0.5 else "at or above"}
   the 5-year average for this date.
-- **Injection deficit** at **{signals['injection_deficit']['value']} GWh/d**:
-  {'a large gap that will be very difficult to close' if signals['injection_deficit']['value'] > 500 else 'some catch-up injection is needed' if signals['injection_deficit']['value'] > 0 else 'injection is on pace to hit the 90% target'}.
-- **YoY fill** at **{signals['yoy_fill']['value']} pp**: storage is
-  {'significantly lower' if signals['yoy_fill']['value'] < -5 else 'slightly lower' if signals['yoy_fill']['value'] < 0 else 'the same or higher'}
+- **Injection deficit** at **{signals["injection_deficit"]["value"]} GWh/d**:
+  {"a large gap that will be very difficult to close" if signals["injection_deficit"]["value"] > 500 else "some catch-up injection is needed" if signals["injection_deficit"]["value"] > 0 else "injection is on pace to hit the 90% target"}.
+- **YoY fill** at **{signals["yoy_fill"]["value"]} pp**: storage is
+  {"significantly lower" if signals["yoy_fill"]["value"] < -5 else "slightly lower" if signals["yoy_fill"]["value"] < 0 else "the same or higher"}
   than the same date last year.
-- **Days of supply**: **{signals['days_of_supply']['value']:.0f} days** at current withdrawal rates  -
-  {'critically low' if signals['days_of_supply']['value'] < 30 else 'tight' if signals['days_of_supply']['value'] < 60 else 'comfortable buffer'}.
-- **Terminal utilization** at **{signals['terminal_utilization']['value']}%**:
-  {'near capacity  - limited room for extra LNG imports' if signals['terminal_utilization']['value'] > 85 else 'getting busy' if signals['terminal_utilization']['value'] > 70 else 'ample headroom for more LNG'}.
-- **Active outages**: **{signals['outage_count']['value']}** terminals reporting unavailability  -
-  {'widespread disruption to LNG imports' if signals['outage_count']['value'] > 10 else 'moderate concern' if signals['outage_count']['value'] > 3 else 'normal operations'}.
+- **Days of supply**: **{signals["days_of_supply"]["value"]:.0f} days** at current withdrawal rates  -
+  {"critically low" if signals["days_of_supply"]["value"] < 30 else "tight" if signals["days_of_supply"]["value"] < 60 else "comfortable buffer"}.
+- **Terminal utilization** at **{signals["terminal_utilization"]["value"]}%**:
+  {"near capacity  - limited room for extra LNG imports" if signals["terminal_utilization"]["value"] > 85 else "getting busy" if signals["terminal_utilization"]["value"] > 70 else "ample headroom for more LNG"}.
+- **Active outages**: **{signals["outage_count"]["value"]}** terminals reporting unavailability  -
+  {"widespread disruption to LNG imports" if signals["outage_count"]["value"] > 10 else "moderate concern" if signals["outage_count"]["value"] > 3 else "normal operations"}.
 """)

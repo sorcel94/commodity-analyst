@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import datetime
 
 import pandas as pd
@@ -62,13 +60,19 @@ if not current.empty:
 
     # Color-coded interpretation
     if z < -1.5:
-        st.error(f"Storage is **{abs(latest_dev):.1f} pp below** the 5-year average (z-score {z:+.2f}). This is a significant deficit  - strongly supports the bullish thesis.")
+        st.error(
+            f"Storage is **{abs(latest_dev):.1f} pp below** the 5-year average (z-score {z:+.2f}). This is a significant deficit  - strongly supports the bullish thesis."
+        )
     elif z < -0.5:
-        st.warning(f"Storage is **{abs(latest_dev):.1f} pp below** the 5-year average (z-score {z:+.2f}). Slightly behind normal  - worth monitoring but not alarming yet.")
+        st.warning(
+            f"Storage is **{abs(latest_dev):.1f} pp below** the 5-year average (z-score {z:+.2f}). Slightly behind normal  - worth monitoring but not alarming yet."
+        )
     elif z < 0.5:
         st.info(f"Storage is roughly in line with the 5-year average (z-score {z:+.2f}). No strong signal in either direction.")
     else:
-        st.success(f"Storage is **{latest_dev:+.1f} pp above** the 5-year average (z-score {z:+.2f}). Comfortable position  - weakens the case for rising prices.")
+        st.success(
+            f"Storage is **{latest_dev:+.1f} pp above** the 5-year average (z-score {z:+.2f}). Comfortable position  - weakens the case for rising prices."
+        )
 
     st.divider()
 
@@ -84,41 +88,45 @@ fig1.add_hrect(y0=0, y1=60, fillcolor="rgba(255,0,0,0.06)", line_width=0)
 
 # Nov 1 deadline vertical line (day 305)
 nov1_doy = datetime.date(current_year, 11, 1).timetuple().tm_yday
-fig1.add_vline(x=nov1_doy, line_dash="dash", line_color="darkred", opacity=0.5,
-               annotation_text="Nov 1 target", annotation_position="top left")
+fig1.add_vline(x=nov1_doy, line_dash="dash", line_color="darkred", opacity=0.5, annotation_text="Nov 1 target", annotation_position="top left")
 
 # 90% target horizontal line
-fig1.add_hline(y=90, line_dash="dot", line_color="darkred", opacity=0.3,
-               annotation_text="90%", annotation_position="right")
+fig1.add_hline(y=90, line_dash="dot", line_color="darkred", opacity=0.3, annotation_text="90%", annotation_position="right")
 
 # 5-year average band
-fig1.add_trace(go.Scatter(
-    x=list(range(1, len(avg) + 1)),
-    y=avg["avg_full_pct"],
-    mode="lines",
-    name="5yr Average",
-    line={"dash": "dash", "color": "gray"},
-))
+fig1.add_trace(
+    go.Scatter(
+        x=list(range(1, len(avg) + 1)),
+        y=avg["avg_full_pct"],
+        mode="lines",
+        name="5yr Average",
+        line={"dash": "dash", "color": "gray"},
+    )
+)
 
 # Target curve
-fig1.add_trace(go.Scatter(
-    x=[d.timetuple().tm_yday for d in tc.index],
-    y=tc["target_pct"],
-    mode="lines",
-    name="EU Target",
-    line={"dash": "dot", "color": "red"},
-))
+fig1.add_trace(
+    go.Scatter(
+        x=[d.timetuple().tm_yday for d in tc.index],
+        y=tc["target_pct"],
+        mode="lines",
+        name="EU Target",
+        line={"dash": "dot", "color": "red"},
+    )
+)
 
 # Current year
 if not current.empty:
     current_doy = pd.DatetimeIndex(current.index).day_of_year  # pyright: ignore[reportAttributeAccessIssue]
-    fig1.add_trace(go.Scatter(
-        x=current_doy.tolist(),
-        y=current["full_pct"],
-        mode="lines",
-        name=str(current_year),
-        line={"width": 3, "color": "#1f77b4"},
-    ))
+    fig1.add_trace(
+        go.Scatter(
+            x=current_doy.tolist(),
+            y=current["full_pct"],
+            mode="lines",
+            name=str(current_year),
+            line={"width": 3, "color": "#1f77b4"},
+        )
+    )
 
 fig1.update_layout(
     xaxis_title="Day of Year",
@@ -128,7 +136,9 @@ fig1.update_layout(
 )
 st.plotly_chart(fig1, width="stretch")
 
-st.caption("The solid blue line should stay above the red dotted EU target curve. Background bands: green (80%+) = comfortable, yellow (60-80%) = needs injection, red (<60%) = behind schedule. The vertical dashed line marks the November 1 deadline.")
+st.caption(
+    "The solid blue line should stay above the red dotted EU target curve. Background bands: green (80%+) = comfortable, yellow (60-80%) = needs injection, red (<60%) = behind schedule. The vertical dashed line marks the November 1 deadline."
+)
 
 # --- Chart 2: Multi-year overlay ---
 st.subheader("Multi-Year Overlay")
@@ -140,24 +150,28 @@ avg_plus = avg["avg_full_pct"] + avg["std_full_pct"]
 avg_minus = avg["avg_full_pct"] - avg["std_full_pct"]
 doy_range = list(range(1, len(avg) + 1))
 
-fig2.add_trace(go.Scatter(
-    x=doy_range + doy_range[::-1],
-    y=avg_plus.tolist() + avg_minus.tolist()[::-1],
-    fill="toself",
-    fillcolor="rgba(128,128,128,0.15)",
-    line={"width": 0},
-    showlegend=True,
-    name="5yr Avg +/- 1 Std Dev",
-    hoverinfo="skip",
-))
+fig2.add_trace(
+    go.Scatter(
+        x=doy_range + doy_range[::-1],
+        y=avg_plus.tolist() + avg_minus.tolist()[::-1],
+        fill="toself",
+        fillcolor="rgba(128,128,128,0.15)",
+        line={"width": 0},
+        showlegend=True,
+        name="5yr Avg +/- 1 Std Dev",
+        hoverinfo="skip",
+    )
+)
 
-fig2.add_trace(go.Scatter(
-    x=doy_range,
-    y=avg["avg_full_pct"],
-    mode="lines",
-    name="5yr Average",
-    line={"dash": "dash", "color": "gray", "width": 2},
-))
+fig2.add_trace(
+    go.Scatter(
+        x=doy_range,
+        y=avg["avg_full_pct"],
+        mode="lines",
+        name="5yr Average",
+        line={"dash": "dash", "color": "gray", "width": 2},
+    )
+)
 
 colors = ["#aec7e8", "#ffbb78", "#98df8a", "#ff9896", "#c5b0d5"]
 
@@ -166,24 +180,28 @@ for i, year in enumerate(range(current_year - 5, current_year)):
     if year_data.empty:
         continue
     doys = pd.DatetimeIndex(year_data.index).day_of_year  # pyright: ignore[reportAttributeAccessIssue]
-    fig2.add_trace(go.Scatter(
-        x=doys.tolist(),
-        y=year_data["full_pct"],
-        mode="lines",
-        name=str(year),
-        line={"color": colors[i % len(colors)]},
-        opacity=0.6,
-    ))
+    fig2.add_trace(
+        go.Scatter(
+            x=doys.tolist(),
+            y=year_data["full_pct"],
+            mode="lines",
+            name=str(year),
+            line={"color": colors[i % len(colors)]},
+            opacity=0.6,
+        )
+    )
 
 if not current.empty:
     current_doy = pd.DatetimeIndex(current.index).day_of_year  # pyright: ignore[reportAttributeAccessIssue]
-    fig2.add_trace(go.Scatter(
-        x=current_doy.tolist(),
-        y=current["full_pct"],
-        mode="lines",
-        name=str(current_year),
-        line={"width": 3, "color": "#1f77b4"},
-    ))
+    fig2.add_trace(
+        go.Scatter(
+            x=current_doy.tolist(),
+            y=current["full_pct"],
+            mode="lines",
+            name=str(current_year),
+            line={"width": 3, "color": "#1f77b4"},
+        )
+    )
 
 fig2.update_layout(
     xaxis_title="Day of Year",
@@ -193,4 +211,6 @@ fig2.update_layout(
 )
 st.plotly_chart(fig2, width="stretch")
 
-st.caption("The gray band shows the 'normal range' (5-year average +/- 1 standard deviation). If this year's blue line falls below the band, storage is unusually low for this time of year.")
+st.caption(
+    "The gray band shows the 'normal range' (5-year average +/- 1 standard deviation). If this year's blue line falls below the band, storage is unusually low for this time of year."
+)

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import numpy as np
 import pandas as pd
 
@@ -13,10 +11,12 @@ def five_year_average(df_multi_year: pd.DataFrame) -> pd.DataFrame:
     s = df_multi_year["full_pct"].copy()
     s.index = pd.DatetimeIndex(df_multi_year.index).day_of_year  # pyright: ignore[reportAttributeAccessIssue]
     grouped = s.groupby(s.index)
-    return pd.DataFrame({
-        "avg_full_pct": grouped.mean(),
-        "std_full_pct": grouped.std(),
-    })
+    return pd.DataFrame(
+        {
+            "avg_full_pct": grouped.mean(),
+            "std_full_pct": grouped.std(),
+        }
+    )
 
 
 def target_curve(year: int) -> pd.DataFrame:

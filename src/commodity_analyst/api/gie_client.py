@@ -1,8 +1,6 @@
-from __future__ import annotations
-
 import logging
 import time
-from typing import Any
+from typing import Any, Self
 
 import httpx
 
@@ -52,7 +50,7 @@ class GIEClient:
             self._client.close()
             self._client = None
 
-    def __enter__(self) -> GIEClient:
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, *args: object) -> None:
@@ -78,7 +76,7 @@ class GIEClient:
             if response.status_code == 429:
                 if retries < _MAX_429_RETRIES:
                     retries += 1
-                    logger.warning("429 rate limited — sleeping %ds before retry", _RATE_LIMIT_COOLDOWN)
+                    logger.warning("429 rate limited, sleeping %ds before retry", _RATE_LIMIT_COOLDOWN)
                     time.sleep(_RATE_LIMIT_COOLDOWN)
                     continue
                 raise GIEApiError("Rate limited (429) after retry", status_code=429)

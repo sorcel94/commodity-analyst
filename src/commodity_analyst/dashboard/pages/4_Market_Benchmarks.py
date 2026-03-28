@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import datetime
 
 import pandas as pd
@@ -61,33 +59,50 @@ st.subheader("12-Month Price Overlay")
 fig1 = go.Figure()
 
 if not ttf.empty:
-    fig1.add_trace(go.Scatter(
-        x=ttf.index, y=ttf["close"],
-        mode="lines", name="TTF (EUR/MWh)",
-        line={"color": "#1f77b4"},
-    ))
+    fig1.add_trace(
+        go.Scatter(
+            x=ttf.index,
+            y=ttf["close"],
+            mode="lines",
+            name="TTF (EUR/MWh)",
+            line={"color": "#1f77b4"},
+        )
+    )
     # TTF 12-month median reference line
-    fig1.add_hline(y=ttf_median, line_dash="dot", line_color="#1f77b4", opacity=0.4,
-                   annotation_text=f"TTF Median: {ttf_median:.0f}",
-                   annotation_position="top left")
+    fig1.add_hline(
+        y=ttf_median,
+        line_dash="dot",
+        line_color="#1f77b4",
+        opacity=0.4,
+        annotation_text=f"TTF Median: {ttf_median:.0f}",
+        annotation_position="top left",
+    )
 
 if not hh.empty:
-    fig1.add_trace(go.Scatter(
-        x=hh.index, y=hh["close"],
-        mode="lines", name="Henry Hub (USD/MMBtu)",
-        yaxis="y2",
-        line={"color": "#ff7f0e"},
-    ))
+    fig1.add_trace(
+        go.Scatter(
+            x=hh.index,
+            y=hh["close"],
+            mode="lines",
+            name="Henry Hub (USD/MMBtu)",
+            yaxis="y2",
+            line={"color": "#ff7f0e"},
+        )
+    )
 
 if not jkm.empty:
     cutoff = datetime.date.today() - datetime.timedelta(days=365)
     jkm_recent = jkm[jkm.index >= str(cutoff)]
     if not jkm_recent.empty:
-        fig1.add_trace(go.Scatter(
-            x=jkm_recent.index, y=jkm_recent["close"],
-            mode="lines+markers", name="JKM (EUR/MWh)",
-            line={"color": "#2ca02c"},
-        ))
+        fig1.add_trace(
+            go.Scatter(
+                x=jkm_recent.index,
+                y=jkm_recent["close"],
+                mode="lines+markers",
+                name="JKM (EUR/MWh)",
+                line={"color": "#2ca02c"},
+            )
+        )
 
 fig1.update_layout(
     yaxis={"title": "EUR/MWh"},
@@ -97,7 +112,9 @@ fig1.update_layout(
 )
 st.plotly_chart(fig1, width="stretch")
 
-st.caption("TTF and JKM are both in EUR/MWh (left axis) so their spread is directly visible. Henry Hub (right axis) stays in USD/MMBtu. JKM is monthly FRED data with a 1-2 month publication lag.")
+st.caption(
+    "TTF and JKM are both in EUR/MWh (left axis) so their spread is directly visible. Henry Hub (right axis) stays in USD/MMBtu. JKM is monthly FRED data with a 1-2 month publication lag."
+)
 
 # --- TTF vs Storage scatter ---
 st.subheader("TTF Price vs EU Storage Fill")
@@ -124,23 +141,27 @@ if storage is not None and not storage.empty and not ttf.empty:
         corr = float(fill_series.corr(close_series))
 
         fig2 = go.Figure()
-        fig2.add_trace(go.Scatter(
-            x=merged["full_pct"],
-            y=merged["close"],
-            mode="markers",
-            marker={"color": "#1f77b4", "size": 5, "opacity": 0.6},
-            name="Daily",
-        ))
+        fig2.add_trace(
+            go.Scatter(
+                x=merged["full_pct"],
+                y=merged["close"],
+                mode="markers",
+                marker={"color": "#1f77b4", "size": 5, "opacity": 0.6},
+                name="Daily",
+            )
+        )
         # Annotate latest point
-        fig2.add_trace(go.Scatter(
-            x=[merged["full_pct"].iloc[-1]],
-            y=[merged["close"].iloc[-1]],
-            mode="markers+text",
-            marker={"color": "red", "size": 12, "symbol": "star"},
-            text=["Today"],
-            textposition="top center",
-            name="Current",
-        ))
+        fig2.add_trace(
+            go.Scatter(
+                x=[merged["full_pct"].iloc[-1]],
+                y=[merged["close"].iloc[-1]],
+                mode="markers+text",
+                marker={"color": "red", "size": 12, "symbol": "star"},
+                text=["Today"],
+                textposition="top center",
+                name="Current",
+            )
+        )
 
         # Median lines for quadrant reference
         med_fill = float(merged["full_pct"].median())
@@ -149,12 +170,20 @@ if storage is not None and not storage.empty and not ttf.empty:
         fig2.add_vline(x=med_fill, line_dash="dot", line_color="gray", opacity=0.3)
 
         # Quadrant annotations
-        fig2.add_annotation(x=med_fill - 5, y=med_price + (med_price * 0.15),
-                            text="Low fill + High price", showarrow=False,
-                            font={"size": 9, "color": "rgba(200,0,0,0.5)"})
-        fig2.add_annotation(x=med_fill + 5, y=med_price - (med_price * 0.15),
-                            text="High fill + Low price", showarrow=False,
-                            font={"size": 9, "color": "rgba(0,150,0,0.5)"})
+        fig2.add_annotation(
+            x=med_fill - 5,
+            y=med_price + (med_price * 0.15),
+            text="Low fill + High price",
+            showarrow=False,
+            font={"size": 9, "color": "rgba(200,0,0,0.5)"},
+        )
+        fig2.add_annotation(
+            x=med_fill + 5,
+            y=med_price - (med_price * 0.15),
+            text="High fill + Low price",
+            showarrow=False,
+            font={"size": 9, "color": "rgba(0,150,0,0.5)"},
+        )
 
         fig2.update_layout(
             xaxis_title="EU Fill %",
@@ -164,12 +193,18 @@ if storage is not None and not storage.empty and not ttf.empty:
         st.plotly_chart(fig2, width="stretch")
 
         if corr < -0.5:
-            st.caption(f"Correlation: **{corr:.2f}** (strong negative) - as storage falls, prices rise. This is the typical pattern: low fill = higher scarcity premium.")
+            st.caption(
+                f"Correlation: **{corr:.2f}** (strong negative) - as storage falls, prices rise. This is the typical pattern: low fill = higher scarcity premium."
+            )
         elif corr < -0.2:
             st.caption(f"Correlation: **{corr:.2f}** (moderate negative) - some inverse relationship between storage and prices, as expected.")
         elif corr < 0.2:
-            st.caption(f"Correlation: **{corr:.2f}** (weak) - storage levels aren't the dominant price driver right now. Other factors (LNG flows, weather, geopolitics) matter more.")
+            st.caption(
+                f"Correlation: **{corr:.2f}** (weak) - storage levels aren't the dominant price driver right now. Other factors (LNG flows, weather, geopolitics) matter more."
+            )
         else:
-            st.caption(f"Correlation: **{corr:.2f}** (positive) - unusual. Prices and storage are moving together, possibly driven by seasonal patterns or demand-side effects.")
+            st.caption(
+                f"Correlation: **{corr:.2f}** (positive) - unusual. Prices and storage are moving together, possibly driven by seasonal patterns or demand-side effects."
+            )
 else:
     st.info("Insufficient data for correlation chart.")
