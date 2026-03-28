@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "commodity-analyst"
+version = "0.1.0"
+description = "Natural gas market analysis dashboard"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit",
+    "httpx",
+    "plotly",
+    "pandas",
+    "yfinance",
+    "fredapi",
+    "python-dotenv",
+    "basedpyright>=1.38.4",
+    "ruff>=0.15.8",
+]
+
+
+[tool.basedpyright]
+include = ["src"]
+extraPaths = ["src"]
+typeCheckingMode = "recommended"
+reportAny = false
+reportExplicitAny = false
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportMissingTypeStubs = false
+reportUnusedCallResult = false
+reportUnusedParameter = false
+
+[tool.ruff]
+line-length = 150
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.38.4",
+]
