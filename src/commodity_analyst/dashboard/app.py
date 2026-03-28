@@ -62,14 +62,6 @@ if storage is not None and not storage.empty and lng is not None and not lng.emp
 # Page
 st.title("Commodity Analyst")
 
-# Thesis
-st.markdown(
-    "**Thesis: EU natural gas prices will rise next winter.**\n\n"
-    + "The EU requires 90% gas storage by November 1. "
-    + "With Russian pipeline supply largely gone, Europe depends on LNG imports to refill. "
-    + "If storage falls behind schedule, the market prices in scarcity and TTF rises."
-)
-
 with st.expander("How to read this dashboard"):
     st.markdown("""\
 This dashboard tracks whether EU gas storage is on pace to meet the
@@ -82,6 +74,14 @@ This dashboard tracks whether EU gas storage is on pace to meet the
 - **Imbalance Signals** - composite scorecard of all factors
 
 Green = supply looks comfortable. Red = thesis for rising prices is supported.""")
+
+# Thesis
+st.markdown(
+    "**Thesis: EU natural gas prices will rise next winter.**\n\n"
+    + "The EU requires 90% gas storage by November 1. "
+    + "With Russian pipeline supply largely gone, Europe depends on LNG imports to refill. "
+    + "If storage falls behind schedule, the market prices in scarcity and TTF rises."
+)
 
 st.divider()
 
