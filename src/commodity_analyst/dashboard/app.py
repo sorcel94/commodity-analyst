@@ -70,6 +70,19 @@ st.markdown(
     + "If storage falls behind schedule, the market prices in scarcity and TTF rises."
 )
 
+with st.expander("How to read this dashboard"):
+    st.markdown("""\
+This dashboard tracks whether EU gas storage is on pace to meet the
+**90% fill target by November 1**. If storage falls behind, prices tend to rise.
+
+- **Storage Overview** - current fill vs the 5-year average and EU target
+- **Injection Analysis** - is gas being pumped in fast enough?
+- **LNG Terminals** - are imports supporting supply or near capacity?
+- **Market Benchmarks** - TTF, Henry Hub, JKM prices and correlations
+- **Imbalance Signals** - composite scorecard of all factors
+
+Green = supply looks comfortable. Red = thesis for rising prices is supported.""")
+
 st.divider()
 
 # Analysis
